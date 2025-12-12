@@ -43,4 +43,27 @@ void solveProblems(AcequiaManager& manager)
 }
 
 
+            bool sourceIsNetSource = source->waterLevel > (source->waterNeed + SOURCE_SAFETY_BUFFER);
+            
+            bool destNeedsWater = dest->waterLevel < dest->waterNeed || dest->waterLevel == 0.0;
+            
+            bool destIsSafe = dest->waterLevel < (dest->waterCapacity * FLOOD_SAFETY_MARGIN);
+            
+            if (sourceIsNetSource && destNeedsWater && destIsSafe) 
+            {
+                canal->setFlowRate(1.0); 
+                canal->toggleOpen(true);
+            } 
+            else 
+            {
+                canal->toggleOpen(false);
+                canal->setFlowRate(0.0); 
+            }
+        }
+        
+        manager.nexthour();
+    }
+}
+
+
 
